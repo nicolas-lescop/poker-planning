@@ -114,3 +114,14 @@
     flex-direction: column;
   }
 }
+
+.deck,
+.table {
+  width: 100%;
+  margin: 20px;
+  display: flex;
+  flex-direction: row;
+  border: 2px solid #eaeaea;
+  border-radius: 10px;
+  min-height: 100px;
+}
