@@ -1,0 +1,26 @@
+{
+  "editor.tabSize": 2,
+  "editor.renderWhitespace": "trailing",
+  "editor.autoIndent": "full",
+  "prettier.useEditorConfig": false,
+  "prettier.singleQuote": true,
+  "prettier.semi": true,
+  "prettier.arrowParens": "always",
+  "prettier.trailingComma": "all",
+  "[typescript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "eslint.codeAction.showDocumentation": {
+    "enable": true
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "eslint.packageManager": "yarn",
+  "eslint.quiet": true,
+  "editor.formatOnSave": false,
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma",
+    "editor.formatOnSave": true
+  },
+}
