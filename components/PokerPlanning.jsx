@@ -1,4 +1,4 @@
-import { useState, useEffect, useReducer } from 'react'
+import { useEffect, useReducer } from 'react'
 import { DndContext } from '@dnd-kit/core';
 import Deck, { getCardId } from '../components/Deck';
 
@@ -17,7 +17,6 @@ function cardsReducer(cards, action) {
     const playerName = action.payload.playerName;
     const userCardsFromState = roomState.cards.filter((stateCard) => stateCard.playerName === playerName);
     const deck = cards.filter((card) => !userCardsFromState.some((stateCard) => card.id === stateCard.id ));
-    console.log([...deck, ...roomState.cards]);
     return [...deck, ...roomState.cards];
   }
   if (action.type === 'dragged') {
@@ -25,10 +24,16 @@ function cardsReducer(cards, action) {
     const room = action.payload.room;
     const event = action.payload.event;
     const socket = action.payload.socket;
-    if (!event.active.id.includes(playerName.toLowerCase())) return;
-    const newCards = cards.map((card) => ({ ...card, draggable: event.over.id === 'deck' }));
+    if (!event.active.id.includes(playerName.toLowerCase())) return cards;
+    const newCards = cards
+      .map((card) => {
+        if (card.playerName === playerName) {
+          return { ...card, draggable: event.over.id === 'deck' };
+        }
+        return card;
+      });
     const activeCard = newCards.find(({ id, playerName }) => getCardId(playerName, id) === event.active.id);
-    if (activeCard.container === event.over.id) return;
+    if (activeCard.container === event.over.id) return cards;
     activeCard.container = event.over.id;
     activeCard.draggable = true;
     if (event.over.id === 'table') {
@@ -54,7 +59,6 @@ export default function PokerPlanning({ playerName, room, socket }) {
     { id: '8', content: '?', playerName, container: 'deck', draggable: true },
   ];
   const [cards, setCards] = useReducer(cardsReducer, initialState);
-
   const handleDragEnd = (event) => {
     setCards({
       type: 'dragged',
