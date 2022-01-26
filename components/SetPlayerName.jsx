@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 const LinkToRoom = ({ playerName, room }) => (
     <Link href={{ pathname: '/poker-planning', query: { playerName, room }}}>Rejoindre le poker planning</Link>
@@ -14,23 +15,23 @@ const CreateRoomForm = ({ room, onChangeRoomName }) => (
     <input placeholder="Room name" value={room} onChange={onChangeRoomName} />
 )
 
-export default function SetPlayerName({ joinRoom }) {
-
+export default function SetPlayerName() {
+    const router = useRouter();
+    const joinRoom = router.query.room;
     const [playerName, setPlayerName] = useState('');
-    const [displayCreateRoomForm, setDisplayCreateRoomForm] = useState(false);
     const [room, setRoom] = useState(joinRoom);
     const handleChangePlayerName = (event) => setPlayerName(event.target.value);
     const handleChangeRoomName = (event) => setRoom(event.target.value);
-    const handleAddNewRoom = () => setDisplayCreateRoomForm(true);
-
-    useEffect(() => {
-        if (joinRoom !== room) {
-            setRoom(joinRoom);
-            setDisplayCreateRoomForm(true);
+    const handleAddNewRoom = () => {
+      router.push({
+        pathname: '/',
+        query: {
+          room
         }
-    }, [joinRoom]);
+      })
+    }
 
-    if (displayCreateRoomForm) {
+    if (joinRoom) {
         return (
             <>
                 <PlayerNameForm playerName={playerName} onChangePlayerName={handleChangePlayerName} />

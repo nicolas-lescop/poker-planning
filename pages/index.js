@@ -1,11 +1,9 @@
 import Head from 'next/head'
-import { useRouter } from 'next/router'
 
 import SetPlayerName from '../components/SetPlayerName';
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
-  const router = useRouter();
 
   return (
     <div className={styles.container}>
@@ -17,7 +15,7 @@ export default function Home() {
 
       <main className={styles.main}>
 
-        <SetPlayerName joinRoom={router.query.joinRoom} />
+        <SetPlayerName />
 
       </main>
     </div>
